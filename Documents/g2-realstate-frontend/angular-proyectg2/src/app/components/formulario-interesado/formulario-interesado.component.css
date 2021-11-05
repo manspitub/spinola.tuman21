@@ -1,0 +1,24 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: black;
+    padding: 20px;
+  }
+
+  .cartel{
+      background-color: #071620;
+      color :white;
+      
+  }
+ .field{
+    padding: 40px;
+ }
+ .input{
+     background-color: #152836;
+     color:white;
+ }
+
+ .boton{
+  padding: 4px;
+ }
