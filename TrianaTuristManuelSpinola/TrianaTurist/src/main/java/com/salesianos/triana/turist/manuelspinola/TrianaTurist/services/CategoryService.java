@@ -2,6 +2,7 @@ package com.salesianos.triana.turist.manuelspinola.TrianaTurist.services;
 
 import com.salesianos.triana.turist.manuelspinola.TrianaTurist.dto.CategoryDto;
 import com.salesianos.triana.turist.manuelspinola.TrianaTurist.dto.CategoryDtoConverter;
+import com.salesianos.triana.turist.manuelspinola.TrianaTurist.errores.excepciones.ElementNotFoundException;
 import com.salesianos.triana.turist.manuelspinola.TrianaTurist.model.Category;
 import com.salesianos.triana.turist.manuelspinola.TrianaTurist.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +36,7 @@ public class CategoryService {
     }
 
     public Category findOne(@PathVariable Long id){
-        Category category = categoryRepository.findById(id).orElse(null);
+        Category category = categoryRepository.findById(id).orElseThrow(() ->  new ElementNotFoundException(Category.class,id ))   ;
 
         return category;
     }
