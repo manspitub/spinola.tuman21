@@ -2,7 +2,9 @@ package com.salesianos.triana.turist.manuelspinola.TrianaTurist.services;
 
 import com.salesianos.triana.turist.manuelspinola.TrianaTurist.dto.CategoryDto;
 import com.salesianos.triana.turist.manuelspinola.TrianaTurist.dto.CategoryDtoConverter;
-import com.salesianos.triana.turist.manuelspinola.TrianaTurist.errores.excepciones.ElementNotFoundException;
+import com.salesianos.triana.turist.manuelspinola.TrianaTurist.error.excepciones.ListEntityNotFoundException;
+import com.salesianos.triana.turist.manuelspinola.TrianaTurist.error.excepciones.SingleEntityNotFoundException;
+
 import com.salesianos.triana.turist.manuelspinola.TrianaTurist.model.Category;
 import com.salesianos.triana.turist.manuelspinola.TrianaTurist.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +21,6 @@ import java.util.stream.Collectors;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
-    private final CategoryDto categoryDto;
     private final CategoryDtoConverter categoryDtoConverter;
 
     public Category create(CategoryDto categoryDto){
@@ -28,20 +29,27 @@ public class CategoryService {
                  .build());
     }
 
-    public List<CategoryDto> findAll(){
-        List <CategoryDto> categories = categoryRepository.findAll().stream()
-                .map(categoryDtoConverter::categoryToGetcategoryDto )
-                .collect(Collectors.toList());
-        return categories;
+    public List<Category> findAll(){
+        List<Category> result = categoryRepository.findAll();
+
+        if (result.isEmpty()){
+            throw new ListEntityNotFoundException(Category.class);
+        }
+        else {
+            return result;
+        }
+
     }
 
     public Category findOne(@PathVariable Long id){
-        Category category = categoryRepository.findById(id).orElseThrow(() ->  new ElementNotFoundException(Category.class,id ))   ;
+        Category category = categoryRepository.findById(id).orElseThrow(() ->  new SingleEntityNotFoundException(id.toString(),Category.class ))   ;
 
         return category;
     }
 
     public void delete(@PathVariable Long id) {
+
+
         categoryRepository.deleteById(id);
     }
 

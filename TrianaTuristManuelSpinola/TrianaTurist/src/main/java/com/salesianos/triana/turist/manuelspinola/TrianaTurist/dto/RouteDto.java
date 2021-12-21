@@ -20,4 +20,6 @@ public class RouteDto {
     private List<POI> steps = new ArrayList<>();
 
 
+
+
 }

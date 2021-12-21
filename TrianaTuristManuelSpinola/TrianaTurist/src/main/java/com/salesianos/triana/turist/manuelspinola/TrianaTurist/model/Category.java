@@ -3,6 +3,7 @@ package com.salesianos.triana.turist.manuelspinola.TrianaTurist.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 
 @Entity
 @Data
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @Builder
 public class Category {
     @Id
+    @GeneratedValue
     @Column(name = "id", nullable = false)
     private Long id;
 

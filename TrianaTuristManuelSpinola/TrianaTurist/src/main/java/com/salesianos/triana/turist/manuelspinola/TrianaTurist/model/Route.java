@@ -2,10 +2,7 @@ package com.salesianos.triana.turist.manuelspinola.TrianaTurist.model;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,10 +21,22 @@ public class Route {
 
     private String name;
 
-    @OneToMany(mappedBy = "ruta")
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Builder.Default
     private List<POI> steps =new ArrayList<>();
 
 
     public Route(String name, List<POI> steps) {
     }
+
+    public void addStep(POI p){
+        this.steps.add(p);
+        p.getRoutes().add(this);
+    }
+
+    public void removeStep(POI p){
+        this.steps.remove(p);
+        p.getRoutes().remove(this);
+    }
+
 }

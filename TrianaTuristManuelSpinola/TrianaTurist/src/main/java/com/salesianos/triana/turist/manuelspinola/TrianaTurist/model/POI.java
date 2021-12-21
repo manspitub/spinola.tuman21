@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,6 +16,7 @@ import java.util.List;
 @Builder
 public class POI {
     @Id
+    @GeneratedValue
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -25,11 +27,15 @@ public class POI {
 
 
 
-    @OneToOne(mappedBy = "puntoDeInteres", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "steps",fetch = FetchType.EAGER)
+    @Builder.Default
+    private List<Route> routes = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToOne
-    private Route ruta;
+
 
     private String coverPhoto;
     private String photo2;
@@ -37,4 +43,10 @@ public class POI {
 
     public POI(Category category, String location, String coverPhoto, String name, String photo2, Route ruta, String descripcion) {
     }
+
+
+
+
+
+
 }
